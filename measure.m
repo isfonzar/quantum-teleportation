@@ -1,14 +1,19 @@
-function [ rhoSystem ] = measure( systemDM )
-%MEASURE Função para medir qbit
-%   
+function [ responseDensityMatrix ] = measure( systemDensityMatrix , qBitToMeasure )
+    %MEASURE Functions that measures the system on the first qbit
+    % Further description @todo
 
-[v,d] = eig(systemDM)
-for k=1:size(v)
-    eigenVector = v(:,k);
-    projector = eigenVector * eigenVector';
-    probability = systemDM' * projector * systemDM
-end
+    % @todo add security verifications (are the parameters correct?)
+    
+    % Definying the Projectors
+    sizeDensityMatrix = length(systemDensityMatrix);
+    numOfQBits = log2(sizeDensityMatrix);
+    
+    [Projector1, Projector2] = getProjectors( numOfQBits, qBitToMeasure);
 
-rhoSystem = 1;
+    if (rand() < 0.5)
+        responseDensityMatrix = (Projector1 * systemDensityMatrix * Projector1)/trace(Projector1 * systemDensityMatrix * Projector1);
+    else
+        responseDensityMatrix = (Projector2 * systemDensityMatrix * Projector2)/trace(Projector2 * systemDensityMatrix * Projector2);
+    end
 end
 

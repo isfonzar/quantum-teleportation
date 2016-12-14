@@ -28,9 +28,13 @@ system = CNOT * system;
 H = kron(kron(Hadamard,Id),Id);
 system = H * system;
 
-systemDM = system * system'
+systemDensityMatrix = system * system'
 
-systemDM = measure(systemDM)
+% Measuring the first QBit
+systemDensityMatrix = measure(systemDensityMatrix, [1 0 0]);
+
+% Measuring the second QBit
+systemDensityMatrix = measure(systemDensityMatrix, [0 1 0])
 
 % Se for 01 aplicar bit flip
 % Se for 10 aplicar operacao de fase
