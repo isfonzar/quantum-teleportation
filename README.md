@@ -1,4 +1,3 @@
-<img src="icon.png" align="right" />
 # Quantum Teleportation
 > Quantum Teleporation of a single quantum bit over a noiseless full-entangled channel.
 
