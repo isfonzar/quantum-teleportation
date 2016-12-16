@@ -4,12 +4,10 @@ function [ Projector1, Projector2 ] = getProjectors( numOfQBits, qBitToMeasure )
 %   measure, this function returns the projectors to use in the measurement
 %   process.
 
-
     % Constants
     ket0 = [1; 0];
     ket1 = [0; 1];
-    IdentityMatrix = [1 0; 0 1];
-    
+    IdentityMatrix = [1 0; 0 1];   
     
     for iterator = 1:1:numOfQBits
         if (iterator == 1)

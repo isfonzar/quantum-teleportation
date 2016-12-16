@@ -1,4 +1,4 @@
-function [ responseDensityMatrix ] = measure( systemDensityMatrix , qBitToMeasure )
+function [ responseDensityMatrix ] = measureSingleQBit( systemDensityMatrix , qBitToMeasure )
     %MEASURE Functions that measures the system on the first qbit
     % Further description @todo
 

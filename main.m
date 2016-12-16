@@ -2,6 +2,7 @@
 % https://github.com/iiiicaro/quantum-teleportation
 
 clear;
+qlib; %@todo Remove qlib dependency
 
 %%% Constants
 Id = [1 0; 0 1];
@@ -28,19 +29,21 @@ system = CNOT * system;
 H = kron(kron(Hadamard,Id),Id);
 system = H * system;
 
-systemDensityMatrix = system * system'
+systemDensityMatrix = system * system';
 
 % Measuring the first QBit
-systemDensityMatrix = measure(systemDensityMatrix, [1 0 0]);
+systemDensityMatrix = measureSingleQBit(systemDensityMatrix, [1 0 0]);
 
 % Measuring the second QBit
-systemDensityMatrix = measure(systemDensityMatrix, [0 1 0])
+systemDensityMatrix = measureSingleQBit(systemDensityMatrix, [0 1 0]);
 
-% Se for 01 aplicar bit flip
-% Se for 10 aplicar operacao de fase
-% Se for 11 aplicar os dois
+qBitToTeleportAfterMeasurementDensityMatrix = partial_trace(systemDensityMatrix, [1 0 0]);
+qBitToTeleportAfterMeasurement = dm2pure(qBitToTeleportAfterMeasurementDensityMatrix);
 
+channelQBitAfterMeasurementDensityMatrix = partial_trace(systemDensityMatrix, [0 1 0]);
+channelQBitAfterMeasurement = dm2pure(channelQBitAfterMeasurementDensityMatrix);
 
-% Observações:
-% Não interfere com o teorema da não-clonagem, pois o estado original é
-% destruído (pois há colapso deste estado, devido a medida)
+teleportedQBitDensityMatrix = partial_trace(systemDensityMatrix, [0 0 1]);
+teleportedQBit = dm2pure(teleportedQBitDensityMatrix);
+
+finalQBit = operationAfterMeasure(qBitToTeleportAfterMeasurement, channelQBitAfterMeasurement, teleportedQBit)
