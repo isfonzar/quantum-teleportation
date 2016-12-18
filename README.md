@@ -1,5 +1,5 @@
 # Quantum Teleportation
-> Quantum Teleporation of a single quantum bit over a noiseless full-entangled channel.
+> Quantum Teleportation of a single quantum bit over a noiseless full-entangled channel.
 
 ## Getting Started
 
