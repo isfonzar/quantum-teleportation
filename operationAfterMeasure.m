@@ -18,13 +18,13 @@ function [ qBit ] = operationAfterMeasure( firstQBit, secondQBit, teleportedQBit
         if (secondQBit == ket0)
            qBit = teleportedQBit;
         elseif (secondQBit == ket1)
-            qBit = teleportedQBit;
+            qBit = sigmaX * teleportedQBit;
         end
     elseif (firstQBit == ket1)
         if (secondQBit == ket0)
-           qBit = teleportedQBit;
+           qBit = sigmaZ * teleportedQBit;
         elseif (secondQBit == ket1)
-            qBit = teleportedQBit;
+            qBit = sigmaX * sigmaZ * teleportedQBit;
         end
     end
 
