@@ -1,6 +1,6 @@
 function [ qBitToTeletransport ] = getQBitToTeleport()
     % getQBitToTeleport
-    %   Prompts the user for an input
+    % Prompts the user for an input
     % @returns randomly generated qbit or user input qbit
 
     %%% Constants
@@ -22,6 +22,9 @@ function [ qBitToTeletransport ] = getQBitToTeleport()
 
         % QBit on lab A
         qBitToTeletransport = alfa * ket0 + beta * ket1;
+        return;
     end
+    
+    error('Invalid option chosen');
 end
 

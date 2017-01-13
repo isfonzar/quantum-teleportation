@@ -10,62 +10,63 @@ ket0 = [1; 0];
 ket1 = [0; 1];
 CNOT = [1 0 0 0; 0 1 0 0; 0 0 0 1; 0 0 1 0];
 Hadamard = (1/sqrt(2))*[1 1; 1 -1];
-gama = 1;
-time = 0;
 
 % Getting the QBit to teleport
-qBitToTeleport = getQBitToTeleport()
+qBitToTeleport = getQBitToTeleport();
+qBitToTeleportDensityMatrix = qBitToTeleport * qBitToTeleport';
+
+disp('Quantum bit to teleport');
+disp(qBitToTeleportDensityMatrix);
 
 % Time Operator
-timeOperator = exp(-gama*time);
+disp('Apply noise to the teleportation process?');
+disp('[1] - No');
+disp('[2] - Yes (Teleportation might not fully work. Fidelity to the expected result will be shown');
+willApplyNoise = input('> ');
 
-[M1, M2] = getNoiseOperator(timeOperator);
-
-maxEntangledState = (kron(ket0,ket0)+kron(ket1,ket1))/sqrt(2);
-
-system = kron(qBitToTeleport,maxEntangledState);
-systemDensityMatrix = system *system'
-
-% Applying noise
-K{1} = kron(M1,kron(M1,M1));
-K{2} = kron(M1,kron(M1,M2));
-K{3} = kron(M1,kron(M2,M1));
-K{4} = kron(M1,kron(M2,M2));
-K{5} = kron(M2,kron(M1,M1));
-K{6} = kron(M2,kron(M1,M2));
-K{7} = kron(M2,kron(M2,M1));
-K{8} = kron(M2,kron(M2,M2));
-
-rhoAfterNoise = 0;
-for (iterator = 1:8)
-    rhoAfterNoise = rhoAfterNoise + K{iterator} * systemDensityMatrix * K{iterator}';
+% Throws error if invalid option
+if ((willApplyNoise ~= 1) && (willApplyNoise ~= 2))
+    error('Invalid option chosen');
 end
 
-systemDensityMatrix = rhoAfterNoise
+% Get the noise matrices and time operator
+if (willApplyNoise == 2)
+    gama = getNoiseIntensity();
+    time = getNoiseDuration();
+    
+    timeOperator = exp(-gama*time);
+
+    [M1, M2] = getNoiseOperator(timeOperator);
+end
+
+% The channel and receiver share a maximum entangled state
+maxEntangledState = (kron(ket0,ket0)+kron(ket1,ket1))/sqrt(2);
+
+% Density Matrix of the system
+system = kron(qBitToTeleport,maxEntangledState);
+systemDensityMatrix = system *system';
+
+% Applying noise
+if (willApplyNoise == 2)
+    systemDensityMatrix = applyNoise(systemDensityMatrix, M1, M2);
+end
 
 % Applying CNOT Gate
 CNOT = kron(CNOT, Id);
 systemDensityMatrix = CNOT * systemDensityMatrix * CNOT';
 
 % Applying noise
-K{1} = kron(M1,kron(M1,M1));
-K{2} = kron(M1,kron(M1,M2));
-K{3} = kron(M1,kron(M2,M1));
-K{4} = kron(M1,kron(M2,M2));
-K{5} = kron(M2,kron(M1,M1));
-K{6} = kron(M2,kron(M1,M2));
-K{7} = kron(M2,kron(M2,M1));
-K{8} = kron(M2,kron(M2,M2));
-
-rhoAfterNoise = 0;
-for (iterator = 1:8)
-    rhoAfterNoise = rhoAfterNoise + K{iterator} * systemDensityMatrix * K{iterator}';
+if (willApplyNoise == 2)
+    systemDensityMatrix = applyNoise(systemDensityMatrix, M1, M2);
 end
-
-systemDensityMatrix = rhoAfterNoise
 
 H = kron(kron(Hadamard,Id),Id);
 systemDensityMatrix = H * systemDensityMatrix * H';
+
+% Applying noise
+if (willApplyNoise == 2)
+    systemDensityMatrix = applyNoise(systemDensityMatrix, M1, M2);
+end
 
 % Measuring the first QBit
 systemDensityMatrix = measureSingleQBit(systemDensityMatrix, [1 0 0]);
@@ -82,4 +83,14 @@ channelQBitAfterMeasurement = dm2pure(channelQBitAfterMeasurementDensityMatrix);
 teleportedQBitDensityMatrix = partial_trace(systemDensityMatrix, [0 0 1]);
 teleportedQBit = dm2pure(teleportedQBitDensityMatrix);
 
-finalQBit = operationAfterMeasure(qBitToTeleportAfterMeasurement, channelQBitAfterMeasurement, teleportedQBit)
+finalQBitDensityMatrix = operationAfterMeasure(qBitToTeleportAfterMeasurement, channelQBitAfterMeasurement, teleportedQBitDensityMatrix);
+
+disp('Teleported quantum bit:');
+disp(finalQBitDensityMatrix);
+
+if (willApplyNoise == 2)
+    fidelity = trace(qBitToTeleportDensityMatrix * finalQBitDensityMatrix);
+    
+    disp('Fidelity of the results over the expected (the closer to 1, the better):');
+    disp(fidelity);
+end
