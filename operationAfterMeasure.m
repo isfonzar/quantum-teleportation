@@ -1,4 +1,4 @@
-function [ qBit ] = operationAfterMeasure( firstQBit, secondQBit, teleportedQBit )
+function [ qBit ] = operationAfterMeasure( firstQBit, secondQBit, teleportedQBitDensityMatrix )
 %
 % Function that applies an operation on the teleportedQBit according to the two measured qBits
 % 
@@ -16,15 +16,15 @@ function [ qBit ] = operationAfterMeasure( firstQBit, secondQBit, teleportedQBit
 
     if (firstQBit == ket0)
         if (secondQBit == ket0)
-           qBit = teleportedQBit;
+           qBit = teleportedQBitDensityMatrix;
         elseif (secondQBit == ket1)
-            qBit = sigmaX * teleportedQBit;
+            qBit = sigmaX * teleportedQBitDensityMatrix * sigmaX';
         end
     elseif (firstQBit == ket1)
         if (secondQBit == ket0)
-           qBit = sigmaZ * teleportedQBit;
+           qBit = sigmaZ * teleportedQBitDensityMatrix * sigmaZ';
         elseif (secondQBit == ket1)
-            qBit = sigmaX * sigmaZ * teleportedQBit;
+            qBit = sigmaX * (sigmaZ * teleportedQBitDensityMatrix * sigmaZ) * sigmaX;
         end
     end
 
