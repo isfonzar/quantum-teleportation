@@ -1,5 +1,9 @@
-# Quantum Teleportation
-> Quantum Teleportation of a single quantum bit over a full-entangled channel.
+# ![Quantum Teleportation](https://cdn.rawgit.com/iiiicaro/quantum-teleportation/2a235219/logo.jpg)
+
+# Quantum Teleportation ![Language Badge](https://img.shields.io/badge/Language-Matlab-blue.svg) ![License Badge](https://img.shields.io/badge/License-MIT-blue.svg) ![Status Badge](https://img.shields.io/badge/Status-Released-brightgreen.svg)
+Quantum Teleportation of a single quantum bit over a full-entangled channel.
+
+The goal of this script is to provide a simple implementation of the quantum teleportation algorithm.
 
 ### Prerequisites and dependencies
 
