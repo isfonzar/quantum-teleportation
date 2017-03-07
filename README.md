@@ -1,6 +1,12 @@
-# ![Quantum Teleportation](https://cdn.rawgit.com/iiiicaro/quantum-teleportation/2a235219/logo.jpg)
+<p align="center"><img src="https://cdn.rawgit.com/iiiicaro/quantum-teleportation/2a235219/logo.jpg"></p>
 
-# Quantum Teleportation ![Language Badge](https://img.shields.io/badge/Language-Matlab-blue.svg) ![License Badge](https://img.shields.io/badge/License-MIT-blue.svg) ![Status Badge](https://img.shields.io/badge/Status-Released-brightgreen.svg)
+<p align="center">
+<a href="https://github.com/isfonzar/quantum-teleportation"><img src="https://img.shields.io/badge/Language-Matlab-blue.svg" alt="Language"></a>
+<a href="https://github.com/isfonzar/quantum-teleportation/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"></a>
+<a href="https://github.com/isfonzar/quantum-teleportation/releases"><img src="https://img.shields.io/badge/Status-Released-brightgreen.svg" alt="Status"></a>
+</p>
+
+## About *quantum-teleportation*
 Quantum Teleportation of a single quantum bit over a full-entangled channel.
 
 The goal of this script is to provide a simple implementation of the quantum teleportation algorithm.
