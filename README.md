@@ -35,10 +35,6 @@ Simply clone the repository, open matlab, add QLib to your path (with subfolders
 - Graph analysis
 - Full script, with easily customizable variables and without prompts, for researchers
 
-## Author
-
-* **Icaro Souza Fonzar** - [iiiicaro](https://github.com/iiiicaro)
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
